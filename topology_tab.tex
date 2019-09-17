@@ -1,0 +1,57 @@
+\documentclass[b4paper,landscape,english,dvipdfmx]{jsarticle}
+\usepackage{amsmath,amssymb}
+\usepackage{color}
+\usepackage[hiresbb]{graphicx}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{here}
+\newcommand{\average}[1]{\ensuremath{\langle#1\rangle} }
+\newcommand*{\point}{\textcircled{\textcolor{red}{\scriptsize キ}}}
+\newcommand*{\proof}{\textcircled{\textcolor{blue}{\scriptsize P}}}
+\begin{document}
+\begin{table}[h]
+    \caption{Topology cheet sheet 1}
+    \begin{center}
+    \begin{tabular}{|c||c|c|} \hline
+    & topological space $( X,\ \mathfrak{O})$ & metric space $( X,\ d)$ \\ \hline
+    内部(内点) & $M^i \quad ( M \subset X )$ & $\{ x \mid \exists \epsilon > 0,\ N(x;\epsilon) \subset M \}$ \\ \hline
+    中心$c$の開球 & - & $N(c;\epsilon) = \{ x \mid d(x,\ c) < \epsilon \}$\\ \hline
+    \multirow{2}{*}{閉包(触点)} & \multirow{2}{*}{$\overline{M} \quad ( M \subset X )$} & $ \{ x \mid \forall \epsilon > 0,\ N(x;\epsilon) \cap M \neq \phi \}$ \\
+    & & $ \Leftrightarrow \{ x \mid \exists (x_n)_{n \in \mathbb{N}} \in M \ s.t. \ \lim_{n \to \infty} x_n = x \}$ \\ \hline
+    境界 (境界点) & $M^i \backslash \overline{M}$ & $\{ x \mid \forall \epsilon > 0,\ (N(x;\epsilon) \cap M \neq \phi) \land  (N(x;\epsilon) \cap M^c \neq \phi) \}$ \\ \hline
+    導集合 (集積点) & $M^a = \{ x \mid x \in \overline{ M - \{ x \}} \}$ & $\{ x \mid \forall \epsilon > 0,\ N(x;\epsilon) \cap (M - \{ x \}) \neq \phi \}$  \\ \hline
+    孤立点集合(孤立点) & $M \backslash M^a$ & $\{ x \mid \exists \epsilon > 0,\ N(x;\epsilon) \cap M = \{ x \} \} $ \\ \hline
+    基底$\mathfrak{B} :$ open sets & $\forall O \in \mathfrak{O},\ O = \cup_{\lambda \in \Lambda} B_{\lambda},\ B_{\lambda} \in \mathfrak{B}$ & \\ \hline
+    近傍系$V(x)$  & $V(x) = \{ V \mid x \in V^i \}$ & \\ \hline
+    基本近傍系$V^*(x)$ & $\exists V \in V^*(x) \ s.t. \ V^* \subset V,\ \forall V \in V(x)$ & \\ \hline
+    第二可算公理 & $|\mathfrak{B}| \leq \aleph_0 $ & \\ \cline{1-2}
+    可分空間 & $\exists M \subset X \ s.t. \ |M| \leq \aleph_0 \land \overline{M} = X$ & \\ \hline
+    第一可算公理 & $|V^*(x)| \leq \aleph_0 $ & \\ \hline
+    連続写像$f: X \mapsto Y$ & $\forall O \in \mathfrak{O},\ f^{-1}(O) \in \mathfrak{O}$ & $\forall \epsilon > 0,\ \exists \delta > 0 \ s.t. \ \forall a \in X,\ d_X(x,a) < \delta \Rightarrow d_Y(f(x),f(a)) < \epsilon$ \\ \hline
+    同相写像$f: X \mapsto Y$ & $f$ is bijection.$f,\ f^{-1}$ is a continuous function. & \\ \hline
+    \end{tabular}
+    \end{center}
+\end{table}
+\begin{table}[h]
+    \caption{Topology cheet sheet 2}
+    \begin{center}
+    \begin{tabular}{|c||c|c|c|} \hline
+    & topological space $( X,\ \mathfrak{O})$ & metric space $( X,\ d)$ & euclid space $( \mathbb{R}^n,\ d^{(n)})$ \\ \hline
+    連結 & \begin{tabular}{l} There is no open set $U,\ V$ satisfying: \\ 1. $S \subset U \cup V $ \\ 2. $U \cap V = \phi$ \\ 3. $U \cap S \neq \phi,\ V \cap S \neq \phi$ \end{tabular} & & \begin{tabular}{c} Let $Y$ be subset of $\mathbb{R}^n$ \\ $Y$ is connected. \\ $\Leftrightarrow$ \\ $Y$ is path-connected. \end{tabular} \\ \cline{1-3}
+    弧状連結 & \begin{tabular}{l} $f: [0,1] \mapsto X,\ f(0) = x,\ f(1) = y$ \\ $f$ is continuous function. \end{tabular} & & \\ \hline
+    コンパクト & Every open cover $C$ of $X$ has a \textcolor{red}{finite subcover}. & & 
+    \\ \cline{1-2}
+    点列コンパクト & \begin{tabular}{l} Every sequence of points in $X$ has \\ a convergent subsequence converging to a point in X. \end{tabular} & Complete and Totally bounded  & \begin{tabular}{c} Bounded closed set \\ (Heine-Borel) \end{tabular} \\ \cline{1-2}
+    可算コンパクト & Every \textcolor{red}{countable} open cover $C$ of $X$  has  a finite subcover. & & \\ \hline
+    Lindel\"ofの性質 & Every open cover $C$ of $X$ has at most countable subcover. & & \\ \hline
+    局所連結 & $\forall x \in X,\ \forall V \in \mathfrak{O}(x \in V),\ \exists U \subset V \ s.t. \ \text{U is connected.}$ & & \\ \hline
+    局所コンパクト & $\forall x \in X, \exists V \in V(x) \ s.t. \ \text{V is compact.}$ & & \\ \hline
+    有界 & - & $\forall m \in M,\ \forall x \in X,\ \exists r > 0 \ s.t. \ r < \infty,\ d(x,m) < r$ & \begin{tabular}{c} $\forall k \in \{ 1,\ 2,\ \cdots,\ n \},\ \exists L_k \in \mathbb{R},\ R_k \in \mathbb{R}$ \\ $X \subset [L_1,\ R_1] \times [L_2,\ R_2] \times \cdots \times [L_n,\ R_n]$ \end{tabular} \\ \cline{1-3}
+    全有界 & - & $\forall \epsilon > 0,\ \exists C \ s.t. \ \forall U \in C,\ diam(U) < \epsilon,\ \text{C is finite cover.} \ $ & \\ \hline
+    完備 & - & Every cauchy sequence of points in $X$ is a convergent sequence. & $(e.g.) \ \mathbb{R}^n,\ [ \ ]$\\ \hline
+    一様連続写像$f: X \mapsto Y$ & - & \begin{tabular} {c} $\forall \epsilon > 0,\ \exists \delta > 0 \ s.t.\ $ \\ $\forall x,\ a \in X d_X(x,\ a) < \delta \Rightarrow d_Y(f(x),\ f(a)) < \epsilon $ \end{tabular} &  \\ \hline
+    一様同相写像$f: X \mapsto Y$ & - & \begin{tabular}{c} $f$ is bijection. \\ $f,\ f^{-1}$ is a uniformly continuous function. \end{tabular} & \\ \hline
+    \end{tabular}
+    \end{center}
+\end{table}
+\end{document}

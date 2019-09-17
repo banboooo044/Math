@@ -1,0 +1,511 @@
+\documentclass[dvipdfmx]{jsarticle}
+\usepackage{amsmath,amssymb}
+\usepackage{color}
+\usepackage[hiresbb]{graphicx}
+\usepackage{bm}
+\usepackage{here}
+\newcommand{\average}[1]{\ensuremath{\langle#1\rangle} }
+\newcommand*{\point}{\textcircled{\textcolor{red}{\scriptsize キ}} }
+\newcommand*{\proof}{\textcircled{\textcolor{blue}{\scriptsize P}} }
+\newcommand{\defEq}{\overset{\mathrm{def}}{\Leftrightarrow}}
+\newcommand{\tlinner}[2]{%
+%  \vec{#1} \cdot \vec{#2}%                         definition 1
+%  \left( \vec{#1}, \vec{#2} \right)%               definition 2
+    \left\langle #1, #2 \right\rangle%   definition 3
+}
+\def\hsymb#1{\mbox{\strut\rlap{\smash{\Huge$#1$}}\quad}}
+\begin{document}
+\section{ベクトル空間, 内積, ノルム}
+\begin{description}
+    \item[\bf{Definition:}] 体$F$上のベクトル空間$V$ \\
+        $\bm{a},\ \bm{b} \in V,\ k, l \in F$ 
+        \begin{enumerate}
+            \item 加法 $ + : V \times V \mapsto V $
+                \begin{itemize}
+                    \item 結合法則 : $ (\bm{a} + \bm{b}) + \bm{c} = \bm{a} + (\bm{b} + \bm{c})$
+                    \item 加法単位元が存在 : $ \exists \bm{0} \in V,\ \bm{a} + \bm{0} = \bm{0} + \bm{a} = \bm{a} $
+                    \item 加法逆元が存在 : $ \exists \bm{a}_{-1} \in V,\ \bm{a} + \bm{a}_{-1} = \bm{a}_{-1} + \bm{a} = \bm{0} $
+                    \item 交換法則 : $ \bm{a} + \bm{b} = \bm{b} + \bm{a} $
+                \end{itemize}
+            \item スカラー倍 $ \cdot : F \times V \mapsto V $
+                \begin{itemize}
+                    \item 結合法則 : $(k \cdot l) \cdot \bm{a} = k \cdot (l \cdot \bm{a})$
+                    \item スカラー倍単位元が存在 $ \exists 1 \in F,\ 1 \cdot \bm{a} = \bm{a} $
+                \end{itemize}
+            \item 加法とスカラー倍
+                \begin{itemize}
+                    \item 分配法則1 : $ k \cdot (\bm{a} + \bm{b}) = k \cdot \bm{a} + k \cdot \bm{b}$
+                    \item 分配法則2 : $ (k + l) \cdot \bm{a} = k \cdot \bm{a} + l \cdot \bm{a}$
+                \end{itemize}
+        \end{enumerate}
+    \item[\bf{Definition:}] ベクトル空間$V$の線形部分空間$W$
+        \begin{itemize}
+            \item 集合として, $W \subset V$
+            \item $\bm{a},\ \bm{b} \in W \Rightarrow \bm{a} + \bm{b} \in W$
+            \item $\bm{a} \in W,\ k \in F \Rightarrow k \cdot \bm{a} \in W$
+        \end{itemize}
+
+    \item[\bf{Definition:}] ベクトル空間$V$の基底$\{ \bm{v_1},\ \bm{v_2},\ \dots,\ \bm{v_n} \}$
+        \begin{itemize}
+            \item $\{ \bm{v_1},\ \bm{v_2},\ \dots,\ \bm{v_n} \}$が線形独立
+            \item $\{ \bm{v_1},\ \bm{v_2},\ \dots,\ \bm{v_n} \}$は$V$を生成する.
+        \end{itemize}
+
+    
+        \item[\bf{Definition:}] 内積$\tlinner{\bm{\cdot}}{\bm{\cdot}}  : V \times V \mapsto F,$ ( $V$ : $F$ 上のベクトル空間 )
+        \begin{itemize}
+            \item $F = \mathbb{R},\ V : \text{実ベクトル空間}$
+                \begin{enumerate}
+                    \item 対称性 : $ \tlinner{\bm{a}}{\bm{b}} = \tlinner{\bm{b}}{\bm{a}}$
+                    \item 第1変数に関する線型性 : $ \tlinner{k\bm{a} + \bm{b}}{\bm{c}}  = k \tlinner{\bm{a}}{\bm{c}} + \tlinner{\bm{b}}{\bm{c}}$
+                    \item 第2変数に関する線型性 : $ \tlinner{\bm{a}}{k\bm{b} + \bm{c}} = k \tlinner{\bm{a}}{\bm{b}} + \tlinner{\bm{a}}{\bm{c}}$
+                    \item 非退化性 : $ \tlinner{\bm{a}}{\bm{a}} = 0 \Rightarrow \bm{a} = \bm{0}$
+                    \item 正定値性 : $ \tlinner{\bm{a}}{\bm{a}} \geq 0 $
+                \end{enumerate}
+            \item $ F = \mathbb{C},\ V : \text{複素ベクトル空間}$
+                \begin{enumerate}
+                    \item エルミート対称性 : $ \tlinner{\bm{a}}{\bm{b}} = \overline { \tlinner{\bm{b}}{\bm{a}} }$
+                    \item 第1変数に関する共役線型性 : $ \tlinner{k\bm{a} + \bm{b}}{\bm{c}} = k \tlinner{\bm{a}}{\bm{c}} + \tlinner{\bm{b}}{\bm{c}}$
+                    \item 第2変数に関する線型性 : $ \tlinner{\bm{a}}{k\bm{b} + \bm{c}} = \overline{k} \tlinner{\bm{a}}{\bm{b}} + \tlinner{\bm{a}}{\bm{c}}$
+                    \item 非退化性 : $ \tlinner{\bm{a}}{\bm{a}} = 0 \Rightarrow \bm{a} = \bm{0}$
+                    \item 正定値性 : $ \tlinner{\bm{a}}{\bm{a}} \geq 0 $
+                \end{enumerate}
+        \end{itemize}
+
+    \item[\bf{Definition:}] 標準内積, エルミート内積
+        \begin{itemize}
+            \item 標準内積$\tlinner{\bm{\cdot}}{\bm{\cdot}} : V \times V \mapsto \mathbb{R},$ ( $V$ : $\mathbb{R}$ 上の実ベクトル空間 )
+                $$ \tlinner{\bm{a}}{\bm{b}} = \sum_{i=1}^n a_ib_i = a_1b_1 + a_2b_2 + \cdots + a_nb_n = \bm{a}^T \bm{b}$$
+            \item エルミート内積$\tlinner{\bm{\cdot}}{\bm{\cdot}} : V \times V \mapsto \mathbb{C},$ ( $V$ : $\mathbb{C}$ 上の複素ベクトル空間 )
+            $$ \tlinner{\bm{a}}{\bm{b}} = \sum_{i=1}^n a_i \overline{b_i} = a_1\overline{b_1} + a_2\overline{b_2} + \cdots + a_n \overline{b_n} = \bm{a}^T \overline{\bm{b}}$$
+        \end{itemize}
+
+    \item[\bf{Theorem:}] シュワルツの不等式 \\
+        ベクトル空間$V$の元$\bm{x},\ \bm{y} \in V$に対し, 
+        $$ |\tlinner{\bm{x}}{\bm{y}}|^2 \leq \tlinner{\bm{x}}{\bm{x}} \tlinner{\bm{y}}{\bm{y}} $$
+        \begin{proof}
+            $ \tlinner{ \alpha \bm{x}+\beta \bm{y} }{\alpha \bm{x}+\beta \bm{y} } \geq 0 \underset{展開}{\Rightarrow} |\alpha|^2\tlinner{\bm{x}}{\bm{x}} + \alpha \overline{\beta} \tlinner{\bm{x}}{\bm{y}} + \beta \overline{\alpha} \tlinner{\bm{y}}{\bm{x}} + |\beta|^2\tlinner{\bm{y}}{\bm{y}} \geq 0$ \\
+            $ \alpha = \tlinner{\bm{y}}{\bm{y}},\ \beta = -\tlinner{\bm{x}}{\bm{y}} $とおけば, 1,2項目が残って$\tlinner{\bm{y}}{\bm{y}}^2 \tlinner{\bm{x}}{\bm{x}} - \tlinner{\bm{y}}{\bm{y}} | \tlinner{\bm{x}}{\bm{y}} |^2 \geq 0$
+
+        \end{proof}
+
+    \item[\bf{Proposition:}] ノルム$ ||\cdot|| : V \times V \mapsto F,$ ( $V$ : $F$ 上のベクトル空間 )
+        \begin{enumerate}
+            \item 独立性 $|| \bm{a} || = 0 \Leftrightarrow \bm{a} = \bm{0} $
+            \item 斉次性 $|| k \bm{a} || = | k | || \bm{a} ||$
+            \item 劣加法性(三角不等式) $ || \bm{a} + \bm{b} || \leq || \bm{a} || + || \bm{b} || $
+        \end{enumerate}
+    
+    \item[\bf{Example:}] 内積ノルム \\
+        $\tlinner{\bm{a}}{\bm{a}}^{\frac{1}{2}}$はノルムの性質を満たす. \\
+        \begin{proof}
+            独立性, 斉次性は明らか.劣加法性はシュワルツの不等式より導かれる.
+        \end{proof}
+\end{description}
+
+\section{線形写像, 表現行列}
+\begin{description}
+    \item[\bf{Definition:}] 線形写像$L : V \mapsto W$
+        \begin{itemize}
+            \item $L(\bm{a} + \bm{b}) = L(\bm{a}) + L(\bm{b})$
+            \item $L(k \cdot \bm{a}) = k \cdot L(\bm{a})$
+        \end{itemize}
+    \item[\bf{Remark:}] 線形写像の性質
+        \begin{itemize}
+            \item $L(\bm{0}) = \bm{0}$
+            \item $L(a_1 \cdot \bm{x_1} + a_2 \cdot \bm{x_2} + \cdots + a_n \cdot \bm{x_n}) = a_1 \cdot L(\bm{x_1}) + a_2 \cdot L(\bm{x_2}) + \cdots + a_n \cdot L(\bm{x_n})$
+        \end{itemize}
+    
+    \item[\bf{Proposition:}] 線形写像$L : F^n \mapsto F^m$と行列$A \in F^{m \times n}$は1対1に対応する.
+        $$ L(\bm{x}) = A \bm{x} \Leftrightarrow L(\bm{e_j}) = \sum_{i=1}^m a_{i,j} \bm{e^*_i} $$
+        $ \{ \bm{e_1}, \dots ,\ \bm{e_n} \}$は$F^n$の標準基底, $ \{ \bm{e^*_1},\ \dots ,\ \bm{e^*_m} \}$は$F^m$の標準基底 \\
+        \begin{proof} 証明の方針 : $F^{m \times n} \underset{inj.}{\mapsto} \{ f \mid f :F^m \mapsto F^n\}$と$\{ f \mid f :F^m \mapsto F^n\} \underset{inj.}{\mapsto} F^{m \times n}$の存在を示す.
+            \begin{enumerate}
+                \item 任意の行列$A$から作る写像$L_A(\bm{x}) = A\bm{x}$は線形写像.
+                \item 任意の線形写像$L$から$A = ( L(\bm{e_1}),\ L(\bm{e_2}),\ \cdots,\ L(\bm{e_n}))$とし, $L(\bm{x}) = A\bm{x}$を満たす.
+            \end{enumerate}
+        \end{proof}
+        
+    \item[\bf{Proposition:}] 線形写像の合成 \\
+        $V,\ W,\ Z$ : $F$上のベクトル空間, $L_A : V \mapsto W$, $L_B : W \mapsto Z$が線形写像.
+        $$L_B \circ L_A : V \mapsto Z \text{は線形写像},\ (L_B \circ L_A) \bm{x} = (BA) \bm{x}$$
+    
+    \item[\bf{Definition:}] 線形写像$L : V \mapsto W$の核$\ker L$,\ 像$\mathrm{Im} \ L$
+        $$ \ker L = \{ \bm{x} \mid L(\bm{x}) = \bm{0} \},\ \mathrm{Im} \ L = \{ L(\bm{x}) \mid \bm{x} \in V \}$$
+    \item[\bf{Theorem:}] 次元公式 \\
+        線形写像$L : V \mapsto W,\ \dim V < \infty$に対して, 
+        $$ \dim (\ker L) + \dim (\mathrm{Im} \ L) = \dim V,\ \dim (\ker L) : \text{退化次数} $$
+        特に $\dim (\ker L) = 0  \Longleftrightarrow \dim (\mathrm{Im} \ L) = \dim V$のとき, $L$は同型写像となる.
+        $$ \dim (\ker L) = 0 \Leftrightarrow \ker L = \{ \bm{0} \} \Leftrightarrow L\text{が単射} \Longleftrightarrow  \dim (\mathrm{Im} \ L) = \dim V \Leftrightarrow L\text{が全射} $$
+        \begin{proof} 証明の方針: $(\ker L)$の基底を拡張して$V$の基底を作る.拡張部から$(\mathrm{Im} \ L)$の基底を作る.
+            \begin{enumerate}
+                \item $\dim (\ker L) = s$のとき, $V$の基底を$\{ \bm{u_1},\ \dots,\ \bm{u_s},\ \bm{v_1},\ \dots,\ \bm{v_r} \}$とする.$\bm{u_i}$は$\ker L$の基底.
+                \item $L( a_1\bm{u_1} + \cdots + a_s\bm{u_s} + b_1\bm{v_1} + \cdots + b_r\bm{v_r}) = b_1L(\bm{v_1}) + \cdots + b_rL(\bm{v_r}) \in \mathrm{Im} \ L $ より, $\{ L(\bm{v_1}),\ \dots,\ L(\bm{v_r}) \}$が$\mathrm{Im} \ L$を生成する.
+                \item $b_1L(\bm{v_1}) + \cdots + b_rL(\bm{v_r}) = 0 \Rightarrow L(b_1\bm{v_1} + \cdots b_r\bm{v_r}) = 0 \Rightarrow b_1\bm{v_1} + \cdots b_r\bm{v_r} \in \ker L$ \\ 
+                $\Rightarrow b_1\bm{v_1} + \cdots b_r\bm{v_r} = c_1\bm{u_1} + \cdots +c_s\bm{u_s} \Rightarrow b_1 = \cdots = b_r = c_1 = \cdots = c_s = 0 $ \\
+                $\Rightarrow \{ L(\bm{v_1}),\ \dots,\ L(\bm{v_r}) \} \text{は線形独立}$
+            \end{enumerate}
+        \end{proof}
+
+    \item[\bf{Definition:}] ベクトル空間$V$の基底変換行列$P$ \\
+        現在の基底$\{ \bm{v_1},\ \bm{v_2},\ \dots,\ \bm{v_n} \}$から$\{ \bm{u_1},\ \bm{u_2},\ \dots,\ \bm{u_n} \}$へ変換を行う.
+            $$( \bm{u_1},\ \bm{u_2},\ \dots,\ \bm{u_n} ) = ( \bm{v_1},\ \bm{v_2},\ \dots,\ \bm{v_n} ) P$$
+        $\{ \bm{u_1},\ \bm{u_2},\ \dots,\ \bm{u_n} \}$が基底となるには, $P$は正則である必要がある. \\
+        \point : 列ベクトルが基底となっている行列には, 基底変換行列は右側からかける. \\
+        行ベクトルがが基底となっている行列には左側からかける.
+        
+    \item[\bf{Definition:}] 線形写像$L_A : V \mapsto W$の基底$\mathfrak{v},\ \mathfrak{w}$に関する表現行列$[L_A]_{\mathfrak{w}}^{\mathfrak{v}} \in F^{m \times n}$ \\ 
+        \point 表現行列は, ベクトル空間間の座標ベクトル変換行列 \\
+        ベクトル空間$V$の基底が$\mathfrak{v} = \{ \bm{v_1},\ \dots,\ \bm{v_n} \}$, $W$の基底が$\mathfrak{w} = \{ \bm{w_1},\ \dots,\ \bm{w_m} \}$のとき, 
+        $$ [L_A]_{\mathfrak{w}}^{\mathfrak{v}} = ( b_{i,j} ),\ L_A(\bm{v_j}) = \sum_{i=1}^m b_{i,j} \bm{w_i} $$
+        基底変換行列$P, Q$を$\{ \bm{e_i} \} \overset{P}{\rightarrow} \mathfrak{v}$, $\{ \bm{e^*_i} \} \overset{Q}{\rightarrow} \mathfrak{w}$, ベクトル空間$V,\ W$での座標ベクトルを$\bm{x},\ \bm{x_*}$とすると, 
+        \begin{eqnarray*}
+            L_A( ( \bm{v_1},\ \dots,\ \bm{v_n} ) \bm{x}) &\underset{基底変換}{=}& L_A( (\bm{e_1},\ \dots,\ \bm{e_n} )P\bm{x} ) \underset{行列表現へ}{=} ( L_A(\bm{e_1}),\ \dots,\ L_A(\bm{e_n}) ) (P\bm{x}) = A P \bm{x} \\
+            &\underset{Wの元より}{=}& ( \bm{w_1},\ \dots,\ \bm{w_m}) \bm{x_*} \underset{基底変換}{=} ( \bm{e^*_1},\ \dots,\ \bm{e^*_m} ) Q \bm{x_*}
+        \end{eqnarray*}
+        $$ AP\bm{x} = ( \bm{e^*_1},\ \dots,\ \bm{e^*_m} ) Q \bm{x_*} \text{ より, } \bm{x_*}  = { \color{red} Q^{-1} A P } \bm{x} $$
+        
+        $ P = ( \bm{v_1},\ \dots,\ \bm{v_n} ),\ Q = ( \bm{w_1},\ \dots,\ \bm{w_m} )$より, 
+        $$ [L_A]_{\mathfrak{w}}^{\mathfrak{v}} = ( \bm{w_1},\ \dots,\ \bm{w_m} )^{-1} A ( \bm{v_1},\ \dots,\ \bm{v_n} )$$
+
+        線形写像$L_A : V \mapsto W$は基底$\mathfrak{v},\ \mathfrak{w}$が共に標準基底の場合の表現行列と解釈可能.
+        
+    \item[\bf{Theorem:}] 表現行列$[L_A]_{\mathfrak{w}'}^{\mathfrak{v}'} \in F^{m \times n} $の基底$\mathfrak{v},\ \mathfrak{w}$に関する表現行列$[L_A]_{\mathfrak{w}}^{\mathfrak{v}} \in F^{m \times n}$ \\ 
+        \point 線形写像$L_A$を表現行列$[L_A]_{\bm{e}}^{\bm{e^*}}$とみなし, 一般化. \\
+        基底変換行列$P, Q$を$\mathfrak{v}' \overset{P}{\rightarrow} \mathfrak{v}$, $\mathfrak{w}' \overset{Q}{\rightarrow} \mathfrak{w}$とすれば, 
+        $$ [L_A]_{\mathfrak{w}}^{\mathfrak{v}} = Q^{-1} [L_A]_{\mathfrak{w}'}^{\mathfrak{v}'} P $$
+
+        \begin{proof} $P',\ Q'$をそれぞれ$\{ \bm{e_i} \} \overset{P'}{\rightarrow} \mathfrak{v}'$, $\{ \bm{e^*_i} \} \overset{Q'}{\rightarrow} \mathfrak{w}'$とすると, 
+            \begin{eqnarray*} 
+                L_A( ( \bm{v_1},\ \dots,\ \bm{v_n} ) \bm{x}) &\underset{基底変換}{=}& L_A( (\bm{v_1}',\ \dots,\ \bm{v_n}' )P\bm{x} ) \underset{基底変換}{=} L_A( (\bm{e_1},\ \dots,\ \bm{e_n} )P'P\bm{x} ) \underset{行列表現へ}{=} AP'P\bm{x}  \\
+                &\underset{Wの元より}{=}& ( \bm{w_1},\ \dots,\ \bm{w_m}) \bm{x_*} \underset{基底変換}{=} ( \bm{w_1}',\ \dots,\ \bm{w_m}' ) Q \bm{x_*} \underset{基底変換}{=} ( \bm{e^*_1},\ \dots,\ \bm{e^*_m} ) Q' Q \bm{x_*}
+            \end{eqnarray*}
+            よって, $ \bm{x_*} = Q^{-1} ( Q'^{-1} A P' ) P \bm{x} = Q^{-1} [L_A]_{\mathfrak{w}'}^{\mathfrak{v}'} P \bm{x} $
+        \end{proof}
+
+    \item[\bf{Proposition:}] 線形変換$L_A : V \mapsto V$の正則性.
+        $$ L_A \text{が全単射} \Leftrightarrow \exists B \in F^{n \times n} : AB = BA = I \Leftrightarrow \mathrm{rank} \ A = n \Leftrightarrow det(A) \neq 0 \Leftrightarrow $$
+        
+    \item[\bf{Theorem:}] 任意の行列$A$の列階数と行階数は等しい.
+        
+
+\end{description}
+\section{行列式写像}
+    \begin{description}
+        \item[\bf{Definition}] n次の行列式写像$\det: M_n(F) \mapsto F$
+            \begin{itemize}
+                \item 列について$n$重線形
+                    \begin{equation*} 
+                        \begin{cases}
+                        \ \det(\bm{a_1},\ \cdots,\ \bm{a_i} + \bm{a^*_i},\ \cdots,\ \bm{a_n}) = \det(\bm{a_1},\ \cdots,\ \bm{a_i},\ \cdots,\ \bm{a_n}) + \det(\bm{a_1},\ \cdots,\ \bm{a^*_i},\ \cdots,\ \bm{a_n}) \\
+                        \ \det(\bm{a_1},\ \cdots,\ k \bm{a_i},\ \cdots,\ \bm{a_n}) = k \det(\bm{a_1},\ \cdots,\ \bm{a_i},\ \cdots,\ \bm{a_n}) 
+                        \end{cases}
+                    \end{equation*}
+                \item 列について交代的
+                    $$\exists i,\ j : i \neq j,\ \bm{a_i} = \bm{a_j} \Rightarrow \det(A) = 0$$
+                \item 単位行列$I_n$に対し, $\det(I_n) = 1$
+            \end{itemize}
+
+        \item[\bf{Theorem:}] 行列式の置換を用いた表現.
+            $$ \det A = \sum_{\sigma \in S_n} sgn(\sigma) a_{\sigma(1),1} a_{\sigma(2),2} \cdots a_{\sigma(n),n} $$
+            \begin{proof} 証明の手順
+                \begin{enumerate}
+                    \item $\bm{a_j} = \sum_{i=1} a_{i, j} \bm{e_i}$より, $\det A = \det ( \sum_{i=1}^n a_{i,1}\bm{e_i}, \dots,\ \sum_{i=1}^n a_{i,n}\bm{e_i} )$ \\
+                    多重線型性を用いて展開すると, 交代性より$\bm{e_i}$成分が複数登場する項は0になる. \\
+                    $\det A = \sum_{\sigma \in S_n} a_1a_2 \cdots a_n \det (\bm{e_{\sigma(1)}},\ \bm{e_{\sigma(2)}}, \dots,\ \bm{e_{\sigma(n)}} ) $
+                    \item $\det (\bm{e_{\sigma(1)}}, \dots,\ \bm{e_{\sigma(n)}} )$は$\det (\bm{e_1}, \dots,\ \bm{e_n} )$の引数位置を$\sigma$で入れ替えたもの.(互換の積で表す.) \\
+                        列入れ替え時の行列式の性質より$\det (\bm{e_{\sigma(1)}}, \dots,\ \bm{e_{\sigma(n)}} ) = sgn(\sigma) \det (\bm{e_1}, \dots,\ \bm{e_n} )$
+                \end{enumerate}
+            \end{proof}
+
+        \item[\bf{Theorem;}] 行列式写像の一意性
+            
+        \item[\bf{Theorem:}] 行列$A$の2つの列$\bm{a_i},\ \bm{a_j}$を入れ替えた行列$A'$の行列式
+            $$ \det A = - \det A' $$
+            \begin{proof}
+                $\det (\bm{a_1}, \dots,\ \bm{a_i}+\bm{a_j}, \dots, \bm{a_j}+\bm{a_i}, \dots, \bm{a_n} )$ \\
+                $= \det (\bm{a_1},\dots , \bm{a_i}, \dots, \bm{a_j}, \dots, \bm{a_n} ) +  \det (\bm{a_1},\dots , \bm{a_j}, \dots, \bm{a_i}, \dots, \bm{a_n} ) = 0$
+            \end{proof}
+            
+
+        \item[\bf{Theorem:}] 転置行列の行列式
+            $$ \det A = \det A^T $$
+            \begin{proof}
+                $ \displaystyle{ \det A = \sum_{\sigma \in S_n} sgn(\sigma) a_{\sigma(1),1} a_{\sigma(2),2} \cdots a_{\sigma(n),n} = \sum_{\sigma^{-1} \in S_n} sgn(\sigma^{-1}) a_{1,\sigma^{-1}(1)} a_{2,\sigma^{-1}(2)} \cdots a_{n, \sigma^{-1}(n)} }$
+            \end{proof}
+        
+        \item[\bf{Theorem:}] 積の行列式
+            $$ \det AB = \det A \det B $$
+        
+        \item[\bf{Theorem:}] 逆行列の行列式
+            $$ \det A^{-1} = (\det A)^{-1} $$
+
+        \item[\bf{Theorem:}] 行列式と固有値の関係 \\
+            \point : 行列式と固有値の積は一致する.
+            行列$A \in M_n(F)$の固有値を$\lambda_1,\ \dots,\ \lambda_n$とする.
+            $$ \det A = \lambda_1 \lambda_2 \cdots \lambda_n$$
+            \begin{proof}
+                固有方程式$\det A - x I_n = (\lambda_1 - x)(\lambda_2 - x) \cdots (\lambda_n - x) $に$x = 0$を代入.
+            \end{proof}
+
+        \item[\bf{Theorem:}] 行列の正則性と行列式の関係
+        $$ \{ \bm{a_1},\ \bm{a_2},\ \dots,\ \bm{a_n} \} \text{が線形独立} \Leftrightarrow \det A \neq 0$$
+            \begin{proof}
+                
+            \end{proof}
+
+        \item[\bf{Definition:}] 行列$A \in M_n(F)$の$(i,j)$余因子$\Delta_{i,j}$ \\
+            $A$の$i$行$j$列を除いて作られる$n-1$次の行列を$A_{i,j}$とすれば, 
+            $$ \Delta_{i,j} = (-1)^{i+j} \det A_{i,j} $$
+
+        \item[\bf{Theorem:}]  余因子展開 \\
+            行列式は, 余因子$\Delta_{i,j}$を用いて以下のように書ける.
+            $$ \det A = \begin{cases} \ \displaystyle \sum_{j=1}^n a_{i,j} \Delta_{i,j} \ (i\text{行固定}) \\ \ \displaystyle \sum_{i=1}^n a_{i,j} \Delta_{i,j} \ (j\text{列固定}) \end{cases}$$
+
+        \item[\bf{Definition:}] 余因子行列 \\
+            行列$A \in M_n(F)$の$(i,j)$余因子$\Delta_{i,j}$に対し, 
+            $$ \mathrm{adj} \ A = \begin{bmatrix}
+                \Delta_{1,1} & \cdots & \Delta_{n,1} \\
+                \vdots & & \vdots \\
+                \Delta_{1,n} & \cdots & \Delta_{n,n}
+            \end{bmatrix}
+            $$
+            \point : $(i,j)$成分が逆になっていることに注意.
+
+        \item[\bf{Example:}] 余因子展開, 余因子行列 \\
+            $$ A = \begin{bmatrix}
+                1 & 2 & 3 \\
+                4 & 5 & 6 \\
+                7 & 8 & 9
+            \end{bmatrix}
+            $$
+            余因子行列を求める.
+            $$ 
+                \mathrm{adj} \ A = \begin{bmatrix} 
+                +\det \begin{bmatrix} 5 & 6 \\ 8 & 9 \end{bmatrix} & -\det \begin{bmatrix} 2 & 3 \\ 8 & 9 \end{bmatrix} & +\det \begin{bmatrix} 2 & 3 \\ 5 & 6 \end{bmatrix} \\
+                -\det \begin{bmatrix} 4 & 6 \\ 7 & 9 \end{bmatrix} & +\det \begin{bmatrix} 1 & 3 \\ 7 & 9 \end{bmatrix} & -\det \begin{bmatrix} 1 & 3 \\ 4 & 6 \end{bmatrix} \\
+                +\det \begin{bmatrix} 5 & 6 \\ 8 & 9 \end{bmatrix} & -\det \begin{bmatrix} 1 & 2 \\ 7 & 8 \end{bmatrix} & +\det \begin{bmatrix} 1 & 2 \\ 4 & 5 \end{bmatrix} 
+                \end{bmatrix}
+            $$
+            $2$ 行目を固定して, 余因子展開を行う.
+            \begin{eqnarray*}
+                \det A &=& a_{2,1} \Delta_{2,1} + a_{2,2} \Delta_{2,2} + a_{2,3} \Delta_{2,3} \\
+                &=& 4 \cdot 6 + 5 \cdot (-12) + 6 \cdot (6) = 0
+            \end{eqnarray*}
+            他の行を足して固定する行の値を1つ以外0にすることで, より簡単になる.
+        \item[\bf{Proposition:}] 余因子行列の性質
+            $$ A (\mathrm{adj} \ A) = (\mathrm{adj} \ A) A = \det A I_n $$
+            またこの性質より, 
+            $$ A^{-1} = \dfrac{1}{\det A} \mathrm{adj} \ A $$
+
+    \end{description}
+
+\section{固有値}
+\begin{description}
+    \item[\bf{Definition:}] 固有値, 固有ベクトル, 固有空間 \\
+    有限次元ベクトル空間$V$上線形変換$L_A : V \mapsto V$に対し, 
+        $$ L_A(\bm{x}) = A \bm{x} = \lambda \bm{x},\ \bm{x} \neq \bm{0}$$
+    を満たす$\lambda,\ \bm{x}$が存在する時, 
+        $$ \lambda : \text{固有値},\ \bm{x} : \text{固有ベクトル},\ V(\lambda) = \{ \bm{x} \mid A \bm{x} = \lambda \bm{x} \} : \text{固有空間} $$
+    固有空間は固有ベクトルの集合に自然な演算を定義したベクトル空間である.
+
+    \item[\bf{Proposition:}] 固有方程式 \\
+        \point : 固有方程式を解いて固有値を求め, その後対応する固有ベクトルを求める.
+        $$ \lambda \in F \text{が} A \in M_n(F) \text{の固有値である.} \Leftrightarrow \det (A - \lambda I_n) = 0 $$
+        \begin{proof}
+            $\lambda$が$A$の固有値 $\Leftrightarrow$ 連立方程式$(A - \lambda I_n)\bm{x} = \bm{0}$に非自明解が存在 $\Leftrightarrow$ $\det (A - \lambda I_n) = 0$
+        \end{proof}
+    
+    \item[\bf{Theorem:}] 相異なる固有値に対応する固有ベクトルは線形独立 \\
+        行列$A \in M_n(F)$の固有値を$ \lambda_1, \dots,\ \lambda_k $, 対応する固有ベクトルを$\bm{x_1},\ \dots,\ \bm{x_k}$ とするとき, 
+        $$ (\forall i,\ j : 1 \leq i < j \leq k,\ \lambda_i \neq \lambda_j),\ \bm{x_i} \text{と} \bm{x_j} \text{は線形独立.}  $$
+        \begin{proof} 証明の方針 : 帰納法で$k-1$で成立を仮定. $ a_1 \bm{x_1} + \cdots +a_k \bm{x_{k}} = 0 \Rightarrow a_1 = \cdots = a_k = 0$を示す.
+            \begin{enumerate}
+                \item $ A (a_1 \bm{x_1} + \cdots +a_k \bm{x_{k}}) - \lambda_k(a_1 \bm{x_1} + \cdots +a_k \bm{x_{k}}) = a_1 (\lambda_1-\lambda_k) \bm{x_1} + \cdots + a_{k-1} (\lambda_{k-1} - \lambda_k) \bm{x_{k-1}} = 0$
+                \item $k-1$で成立仮定より, $a_1(\lambda_1-\lambda_k) = \cdots = a_{k-1}(\lambda_{k-1}-\lambda_k)=0 \underset{固有値は異なる}{\Rightarrow} a_1 = \cdots = a_{k-1} = 0$
+            \end{enumerate}
+        \end{proof}
+    
+    \item[\bf{Theorem:}] 対角化 \\
+        有限次元ベクトル空間$V$上の線形変換$L_A : V \mapsto V$が対角化可能
+            $$ \defEq \exists P \in M_{\dim V}(F): P\text{は正則行列},\ P^{-1} A P = B,\ B \text{は対角行列} $$ 
+        線形変換$L_A : V \mapsto V$の固有値が$\lambda_1,\ \lambda_2,\ \dots,\ \lambda_p$, 対応する固有ベクトルが$\bm{x_1},\ \bm{x_2},\ \dots,\ \bm{x_p}$のとき, 
+        \begin{enumerate}
+            \item 固有値がすべて異なる場合($p=\dim V$) $\Rightarrow$ 固有ベクトルは全て互いに線形独立. \\
+            $\Rightarrow$ $P = ( \bm{x_1},\ \bm{x_2},\ \dots,\ \bm{x_n} )$は正則行列.
+            $$ P^{-1} A P = \begin{bmatrix}
+                & \lambda_1 &           &    &  & \\
+                &          & \lambda_2 &     & \hsymb{0} &  \\
+                &         &           & \ddots &  \\
+                &\hsymb{0} & & & \lambda_n \\
+                \end{bmatrix}
+            ,\ P = ( \bm{x_1},\ \bm{x_2},\ \dots,\ \bm{x_n} ) $$
+        
+            \item 固有値に重複が存在する場合($p < \dim V$) \\
+                各固有値$\lambda_i \ ( 1\leq i \leq p )$の重複度を$n_i$すれば, 
+                $$ \text{対角化可能} \Leftrightarrow n_i = \dim V(\lambda_i) \Leftrightarrow V = V(\lambda_1) \oplus \dots \oplus V(\lambda_p) \Leftrightarrow \dim V = \sum_{i=1}^p \dim V(\lambda_i)$$
+                この時, 正則な行列$P$を以下のように構成可能.
+                $$P = ( \bm{x_1}^{(1)},\ \dots,\ \bm{x_i}^{(1)},\ \bm{x_i}^{(2)},\ \dots,\ \bm{x_i}^{(s_i)},\ \dots ,\ \bm{x_n}^{(s_n)} )$$
+                \point : 各固有値について, 重複度と同じ数だけ線形独立な固有ベクトルが取れれば対角化可能.
+        \end{enumerate}
+
+    \item[\bf{Remark:}] 対角化の基底変換を用いた解釈 \\
+    有限次元ベクトル空間$V$上の線形変換$L_A : V \mapsto V$を対角化するとき, 
+
+    $P$は標準基底$\{ \bm{e_i} \}$から固有ベクトルから成る基底$\{ \bm{x_i} \}$への基底変換行列とみなせる.
+    $$ ( \bm{x_1},\ \bm{x_2},\ \dots ,\ \bm{x_n} ) = ( \bm{e_1},\ \bm{e_2},\ \dots ,\ \bm{e_n} )P $$
+    $P^{-1}AP = \begin{bmatrix}
+        & \lambda_1 &           &    &  & \\
+        &          & \lambda_2 &     & \hsymb{0} &  \\
+        &         &           & \ddots &  \\
+        &\hsymb{0} & & & \lambda_n \\
+        \end{bmatrix}$は, 基底変換行列を$P$とした時の表現行列と言える.
+\end{description}
+
+\section{直交化法, ユニタリ行列(直交行列), 直交補空間}
+\begin{description}
+    \item[\bf{Theorem:}] グラム・シュミットの正規直交化法 \\
+        $\{ \bm{v_1},\ \bm{v_2},\ \dots,\ \bm{v_n} \}$を有限次元ベクトル空間$V$の基底とする.
+        \begin{alignat*}{3}
+            &\bm{u_1}' = \bm{v_1} & \quad & \rightsquigarrow & \quad & \bm{u_1} = \dfrac{\bm{u_1}'}{||\bm{u_1}'||} \\
+            &\bm{u_2}' = \bm{v_2} - \tlinner{\bm{v_2}}{\bm{u_1}} \bm{u_1} &  \quad & \rightsquigarrow & \quad & \bm{u_2} = \dfrac{\bm{u_2}'}{||\bm{u_2}'||} \\
+            &\bm{u_3}' = \bm{v_3} - \tlinner{\bm{v_3}}{\bm{u_1}} \bm{u_1} - \tlinner{\bm{v_3}}{\bm{u_2}}\bm{u_2} &  \quad & \rightsquigarrow & \quad & \bm{u_3} = \dfrac{\bm{u_3}'}{||\bm{u_3}'||} \\
+            & \vdots &  & &  & \vdots \\
+            &\bm{u_n}' = \bm{v_n} - \tlinner{\bm{v_n}}{\bm{u_1}}\bm{u_1} - \cdots - \tlinner{\bm{v_n}}{\bm{u_{n-1}}}\bm{u_{n-1}} &  \quad & \rightsquigarrow & \quad & \bm{u_n} = \dfrac{\bm{u_n}'}{||\bm{u_n}'||}
+        \end{alignat*}
+        \point 基底$\bm{u_r}'$を作るときに $-\tlinner{\bm{v_r}}{\bm{u_i}}\bm{u_i}$は, ベクトル$\bm{v_r}$から基底$\bm{u_i}$成分を引いている.
+        %% 画像
+    \item[\bf{Definition:}] 直交行列, ユニタリ行列
+        \begin{eqnarray*}
+            U \in M_n(\mathbb{R}) \text{が直交行列} &\Leftrightarrow& UU^T = U^TU = I_n \Leftrightarrow \{ \bm{u_1},\ \dots,\ \bm{u_n} \} \text{は正規直交基底} \\
+            U \in M_n(\mathbb{C}) \text{がユニタリ行列} &\Leftrightarrow& U \overline{U}^T = U^T\overline{U} = I_n \Leftrightarrow \{ \bm{u_1},\ \dots,\ \bm{u_n} \} \text{は正規直交基底}
+        \end{eqnarray*}
+    \item[\bf{Proposition:}] ユニタリ群$U(n)$ \\
+        n次ユニタリ行列の積は$\forall U_1,\ U_2 \in U(n),\ U_1U_2 \in U(n)$より, $U(n)$で閉じている.
+        \begin{enumerate}
+            \item 結合法則 $ (U_1 U_2) U_3 = U_1 (U_2 U_3) $
+            \item 単位元の存在 $\exists I_n \in U(n) : UI_n = I_nU = U $
+            \item 逆元の存在 $ \exists \overline{U}^T \in U(n) : U\overline{U}^T = \overline{U}^TU = I_n$
+        \end{enumerate}
+
+    \item[\bf{Proposition:}] 内積不変の変換 \\
+        ユニタリ行列$U$に対し, 
+        $$ \tlinner{U\bm{x}}{U\bm{y}} = \tlinner{\bm{x}}{\overline{U}^TU\bm{y}} =\tlinner{\bm{x}}{\bm{y}} $$
+
+    \item[\bf{Definition:}] 直交補空間$W^{\perp}$ \\
+        有限次元ベクトル空間$V$の線形部分空間$W$に対し, 
+        $$ W^{\perp} = \{ \bm{x} \in V \mid \forall \bm{y} \in W,\ \bm{x} \cdot \bm{y} = 0 \} $$
+        直交補空間も$V$の線形部分空間である.
+
+    \item[\bf{Proposition:}] 直交補空間の性質 \\
+        有限次元ベクトル空間$V$の線形部分空間$W$に対し, 
+        $$ V = W \oplus  W^{\bot} $$
+        \begin{proof} 証明の方針 : $V = W + W^{\bot}$は$W$の基底を$V$の基底に拡張.$ W \cap W^{\bot} = \{ \bm{0} \}$は内積の非退化性.
+            \begin{enumerate}
+                \item $W$の正規直交基底$\{ \bm{w_1},\ \dots,\ \bm{w_r} \}$を拡張して, $V$の基底$\{ \bm{w_1},\ \dots,\ \bm{w_r},\ \bm{m_1}',\ \dots,\ \bm{m_s}' \}$を構成.
+                \item 正規直交化法で$V$の正規直交基底$\{ \bm{w_1},\ \dots,\ \bm{w_r},\ \bm{m_1},\ \dots,\ \bm{m_s} \}$を構成.
+                \item $\bm{x} = \sum_{i=1}^r a_i \bm{w_i} + \sum_{i=1}^s b_i \bm{m_i} = \bm{a} + \bm{b}$とおけば, $\bm{a} \cdot \bm{b} \ ( \bm{a} \in W)$より, $\bm{b} \in W^{\bot}$ $\therefore V = W + W^{\bot}$
+                \item $ \bm{x} \in W \cap W^{\bot} \Rightarrow \bm{x} \cdot \bm{x} = 0 \Rightarrow \text{非退化性より} \bm{x} = \bm{0}$ $\therefore W \cap W^{\bot} = \{ \bm{0} \}$
+            \end{enumerate}
+        \end{proof}
+        さらに, 容易に導ける性質が
+        $$ \dim V = \dim W + \dim W^{\bot},\ (W^{\bot})^{\bot} = W $$
+    
+\end{description}
+\section{エルミート行列(対称行列), エルミート形式(2次形式)}
+\begin{description}
+    \item[\bf{Definition:}] 対称行列, エルミート行列
+        \begin{eqnarray*}
+            A \in M_n(\mathbb{R}) \text{が対称行列} &\Leftrightarrow& A = A^T  \\
+            A \in M_n(\mathbb{C}) \text{がエルミート行列} &\Leftrightarrow& A = \overline{A}^T
+        \end{eqnarray*}
+    
+    \item[\bf{Theorem:}] エルミート行列はユニタリ行列を用いて対角化可能.
+    \item[\bf{Definition:}] 2次形式, エルミート形式 
+        \begin{itemize}
+            \item  実対称行列$A \in M_n(\mathbb{R})$に付随する2次形式 $Q_A : \mathbb{R}^n \mapsto \mathbb{R}$
+                $$ Q_A(\bm{x}) = \tlinner{A \bm{x}}{\bm{x}} = \tlinner{\bm{x}}{A \bm{x}} = \bm{x}^T A \bm{x} \ (\bm{x} \in \mathbb{R}^n)$$
+            \item 複素エルミート行列$A \in M_n(\mathbb{C})$に付随するエルミート形式 $Q_A : \mathbb{C}^n \mapsto \mathbb{R}$
+                $$ Q_A(\bm{x}) = \tlinner{A \bm{x}}{\bm{x}} = \tlinner{\bm{x}}{A \bm{x}} = \bm{x}^T A \bm{x} \ (\bm{x} \in \mathbb{C}^n)$$
+        \end{itemize}
+        \point 一般には, $\tlinner{A \bm{x}}{\bm{y}} = \tlinner{\bm{x}}{ \overline{A}^T \bm{y}}$
+    \item[\bf{Theorem:}] 2次形式, エルミート形式の標準形 \\
+        \point エルミート行列$A$の固有ベクトルを用いた正規直交空間に射影すると$\sum$を用いた表現にできる. \\
+        エルミート行列$A \in M_n(F)$は固有値分解可能.
+            $$ A = 
+            \begin{bmatrix}
+                \bm{p_1} & \bm{p_2} & \dots & \bm{p_n}
+            \end{bmatrix}
+            \begin{bmatrix}
+                & \lambda_1 &           &    &  & \\
+                &          & \lambda_2 &     & \hsymb{0} &  \\
+                &         &           & \ddots &  \\
+                &\hsymb{0} & & & \lambda_n \\
+            \end{bmatrix}
+            \begin{bmatrix}
+                \overline{\bm{p_1}} \\
+                \overline{\bm{p_2}} \\
+                \vdots \\
+                \overline{\bm{p_n}}
+            \end{bmatrix},\ P = \begin{bmatrix}
+                \bm{p_1} & \bm{p_2} & \dots & \bm{p_n}
+            \end{bmatrix} \text{はユニタリ行列}
+        $$
+        $\bm{x}$を標準基底の空間から固有ベクトルを基底とする空間に変換する.
+        $$ (\bm{e_1},\ \bm{e_2},\ \dots,\ \bm{e_n}) \bm{x} \rightarrow (\bm{p_1},\ \bm{p_2},\ \dots,\ \bm{p_n}) \bm{x}' \Leftrightarrow \bm{x} = P^{-1}\bm{x}'$$
+        \begin{itemize}
+            \item  2次形式 $Q_A : \mathbb{R}^n \mapsto \mathbb{R}$の標準形
+                $$ Q_A(\bm{x}) = \tlinner{A \bm{x}}{\bm{x}} = \sum_{i=1}^n \lambda_i x_i'^2 = \lambda_1 x_1'^2 + \lambda_2 x_2'^2 + \cdots + \lambda_n x_n'^2 $$
+            \item  エルミート形式 $Q_A : \mathbb{C}^n \mapsto \mathbb{R}$の標準形
+                $$ Q_A(\bm{x}) = \tlinner{A \bm{x}}{\bm{x}} =  \sum_{i=1}^n \lambda_i |x_i'|^2 = \lambda_1 |x_1'|^2 + \lambda_2 |x_2'|^2 + \cdots + \lambda_n |x_n'|^2 $$
+        \end{itemize}
+        \begin{proof}
+            $ \tlinner{A \bm{x}}{\bm{x}} = \tlinner{PLP^{-1}PP^{-1}\bm{x}}{PP^{-1}\bm{x}} = \tlinner{PL\bm{x}'}{P\bm{x}'} = \tlinner{L\bm{x}'}{\bm{x}'} = 
+            \begin{bmatrix}
+                \lambda x_1' & \lambda_2 x_2' & \dots & \lambda_n x_n'
+            \end{bmatrix}
+            \begin{bmatrix}
+                x_1' \\
+                x_2' \\
+                \vdots \\
+                x_n'
+            \end{bmatrix}$
+        \end{proof}
+    \item[\bf{Theorem:}] エルミート行列$A \in M_n(F)$の正負 \\
+        \point : $A$の固有値を全て見れば$Q_A(\bm{x})$の符号がわかる.
+        \begin{itemize}
+            \item $A$が正 $\defEq \forall x \in F^n \backslash \{ \bm{0} \},\ Q_A(\bm{x}) > 0 \Leftrightarrow \forall i : 1 \leq i \leq n,\ \lambda_i > 0$
+            \item $A$が半正 $\defEq \forall x \in F^n,\ Q_A(\bm{x}) \geq 0 \Leftrightarrow \forall i : 1 \leq i \leq n,\ \lambda_i \geq 0$ 
+            \item $A$が負 $\defEq \forall x \in F^n \backslash \{ \bm{0} \},\ Q_A(\bm{x}) < 0 \Leftrightarrow \forall i : 1 \leq i \leq n,\ \lambda_i < 0$ 
+            \item $A$が半負 $\defEq \forall x \in F^n,\ Q_A(\bm{x}) \leq 0 \Leftrightarrow \forall i : 1 \leq i \leq n,\ \lambda_i \leq 0$ 
+            \item $A$が不定符号
+        \end{itemize}
+        \begin{proof}
+            エルミート形式(2次形式)の標準形より明らか.
+        \end{proof}
+    
+    \item[\bf{Theorem:}] 首座行列式を用いた$n$次エルミート行列$A$が正負の必要十分条件 \\
+        \point : 固有値を求めずに, エルミート行列の正負判定が行える.\\
+        $A$の$k$番目の首座行列式$A_k$に対して, 
+        \begin{eqnarray*}
+            A\text{が正} &\Leftrightarrow& \forall k : 1 \leq k \leq n,\ \det A_k > 0 \\
+            A\text{が負} &\Leftrightarrow& \forall k : 1 \leq k \leq n,\ (-1)^k\det A_k > 0
+        \end{eqnarray*}
+        $$
+            A_k = \begin{bmatrix}
+                a_{1,1} & \cdots & a_{1,k} \\
+                \vdots & & \vdots \\
+                a_{k,1} & \cdots & a_{k,k}
+            \end{bmatrix} 
+        $$
+        \begin{proof} 証明の方針(正の条件) : 右向きは(行列式)$=$(固有値の積)を使う.左向きは帰納法.
+            \begin{enumerate}
+                \item ($\Rightarrow$) : $Q_{A_k}(\bm{x}) = Q_A(( \bm{x},\ \bm{0} )) > 0 \Leftrightarrow \forall i : 1 \leq i \leq k,\ \lambda_k > 0 \Rightarrow \det A_k = \prod_{i=1}^k \lambda_i > 0$
+                \item ($\Leftarrow$) : $\forall k : 1 \leq k \leq n-1,\ \det A_k > 0 \Rightarrow \forall \bm{x} \in F^{n-1} \backslash \{ \bm{0} \},\ Q_{A_{n-1}}(\bm{x})=Q_{A}((\bm{x}, 0)) > 0$を仮定. \\
+                    $\forall k : 1 \leq k \leq n,\ \det A_k > 0$のとき, $A$が正でない$\Rightarrow$ 負の固有値$\lambda_i,\ \lambda_j$が偶数個存在. \\
+                    $\Rightarrow$ 対応する固有ベクトル$\bm{u_i},\ \bm{u_j}$で$(\bm{x}_*,0) = c_i\bm{u_i} + c_j\bm{u_j}$とでき, $Q_{A}((\bm{x}_*,0)) < 0$となり矛盾.
+            \end{enumerate}
+        \end{proof}
+
+\end{description}
+\end{document}
